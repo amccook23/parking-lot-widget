@@ -1,0 +1,12 @@
+{
+  "name": "parking-lot-widget",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "esbuild widget-src/code.tsx --bundle --outfile=dist/code.js --target=es6 --jsx=transform --jsx-factory=figma.widget.h --jsx-fragment=figma.widget.Fragment"
+  },
+  "devDependencies": {
+    "@figma/widget-typings": "*",
+    "esbuild": "^0.19.0"
+  }
+}
