@@ -332,14 +332,14 @@
                 },
                 STATUS_LABELS[item.status]
               ),
-              /* @__PURE__ */ figma.widget.h(
+              /* @__PURE__ */ figma.widget.h(AutoLayout, { padding: { top: 1, bottom: 0, left: 0, right: 0 } }, /* @__PURE__ */ figma.widget.h(
                 SVG,
                 {
-                  width: 8,
-                  height: 5,
-                  src: `<svg width="8" height="5" viewBox="0 0 13 8" xmlns="http://www.w3.org/2000/svg"><path d="M 1.5 0.5 L 11.5 0.5 Q 13 0.5 12.2 1.8 L 7.3 7.2 Q 6.5 8.2 5.7 7.2 L 0.8 1.8 Q 0 0.5 1.5 0.5 Z" fill="${STATUS_FG[item.status]}"/></svg>`
+                  width: 7,
+                  height: 4,
+                  src: `<svg width="7" height="4" viewBox="0 0 13 8" xmlns="http://www.w3.org/2000/svg"><path d="M 1.5 0.5 L 11.5 0.5 Q 13 0.5 12.2 1.8 L 7.3 7.2 Q 6.5 8.2 5.7 7.2 L 0.8 1.8 Q 0 0.5 1.5 0.5 Z" fill="${STATUS_FG[item.status]}"/></svg>`
                 }
-              )
+              ))
             )
           )
         ))
