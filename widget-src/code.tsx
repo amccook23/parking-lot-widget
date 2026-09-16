@@ -336,6 +336,13 @@ function ParkingLot() {
                   >
                     {STATUS_LABELS[item.status]}
                   </Text>
+                  <Text
+                    fontSize={9}
+                    fontWeight={400}
+                    fill={STATUS_FG[item.status]}
+                  >
+                    {"▾"}
+                  </Text>
                 </AutoLayout>
               </AutoLayout>
             </AutoLayout>
