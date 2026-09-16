@@ -7,6 +7,6 @@
   "main": "dist/code.js",
   "ui": "ui.html",
   "editorType": ["figma", "figjam"],
-  "networkAccess": "none",
+  "networkAccess": { "allowedDomains": [] },
   "documentAccess": "dynamic-page"
 }
