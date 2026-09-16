@@ -22,7 +22,7 @@
 
   // widget-src/code.tsx
   var { widget } = figma;
-  var { AutoLayout, Text, Rectangle, useSyncedState, usePropertyMenu } = widget;
+  var { AutoLayout, Text, Rectangle, SVG, useSyncedState, usePropertyMenu } = widget;
   var STATUS_LABELS = {
     parked: "Parked",
     revisiting: "Revisiting",
@@ -333,13 +333,12 @@
                 STATUS_LABELS[item.status]
               ),
               /* @__PURE__ */ figma.widget.h(
-                Text,
+                SVG,
                 {
-                  fontSize: 13,
-                  fontWeight: 600,
-                  fill: STATUS_FG[item.status]
-                },
-                "\u25BE"
+                  width: 13,
+                  height: 8,
+                  src: `<svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6.5 7L12 1" stroke="${STATUS_FG[item.status]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+                }
               )
             )
           )
