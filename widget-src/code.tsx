@@ -337,8 +337,8 @@ function ParkingLot() {
                     {STATUS_LABELS[item.status]}
                   </Text>
                   <Text
-                    fontSize={9}
-                    fontWeight={400}
+                    fontSize={13}
+                    fontWeight={600}
                     fill={STATUS_FG[item.status]}
                   >
                     {"▾"}
