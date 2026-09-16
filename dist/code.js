@@ -23,7 +23,6 @@
   // widget-src/code.tsx
   var { widget } = figma;
   var { AutoLayout, Text, Rectangle, useSyncedState, usePropertyMenu } = widget;
-  var STATUS_CYCLE = ["parked", "revisiting", "resolved"];
   var STATUS_LABELS = {
     parked: "Parked",
     revisiting: "Revisiting",
@@ -58,6 +57,7 @@
         height: 320,
         title: "Add to Parking Lot"
       });
+      figma.ui.postMessage({ type: "add-form" });
       figma.ui.onmessage = (msg) => {
         if (msg.type === "add") {
           setItems([
@@ -290,15 +290,29 @@
                 padding: { top: 3, bottom: 3, left: 8, right: 8 },
                 fill: STATUS_BG[item.status],
                 cornerRadius: 4,
-                onClick: () => {
-                  const idx = STATUS_CYCLE.indexOf(item.status);
-                  const next = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
-                  setItems(
-                    items.map(
-                      (i) => i.id === item.id ? __spreadProps(__spreadValues({}, i), { status: next }) : i
-                    )
-                  );
-                }
+                onClick: () => new Promise((resolve) => {
+                  figma.showUI(__html__, {
+                    width: 200,
+                    height: 130,
+                    title: "Set status"
+                  });
+                  figma.ui.postMessage({
+                    type: "status-picker",
+                    currentStatus: item.status,
+                    itemId: item.id
+                  });
+                  figma.ui.onmessage = (msg) => {
+                    if (msg.type === "set-status") {
+                      setItems(
+                        items.map(
+                          (i) => i.id === item.id ? __spreadProps(__spreadValues({}, i), { status: msg.status }) : i
+                        )
+                      );
+                    }
+                    figma.closePlugin();
+                    resolve();
+                  };
+                })
               },
               /* @__PURE__ */ figma.widget.h(
                 Rectangle,
