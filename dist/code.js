@@ -335,8 +335,8 @@
               /* @__PURE__ */ figma.widget.h(
                 Text,
                 {
-                  fontSize: 9,
-                  fontWeight: 400,
+                  fontSize: 13,
+                  fontWeight: 600,
                   fill: STATUS_FG[item.status]
                 },
                 "\u25BE"
