@@ -49,6 +49,7 @@ function openAddForm(
       height: 320,
       title: "Add to Parking Lot",
     });
+    figma.ui.postMessage({ type: "add-form" });
     figma.ui.onmessage = (msg) => {
       if (msg.type === "add") {
         setItems([
@@ -286,7 +287,7 @@ function ParkingLot() {
                   </Text>
                 </AutoLayout>
 
-                {/* Status badge — click to cycle */}
+                {/* Status badge — click to open picker */}
                 <AutoLayout
                   direction="horizontal"
                   spacing={4}
@@ -294,15 +295,33 @@ function ParkingLot() {
                   padding={{ top: 3, bottom: 3, left: 8, right: 8 }}
                   fill={STATUS_BG[item.status]}
                   cornerRadius={4}
-                  onClick={() => {
-                    const idx = STATUS_CYCLE.indexOf(item.status);
-                    const next = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
-                    setItems(
-                      items.map((i) =>
-                        i.id === item.id ? { ...i, status: next } : i
-                      )
-                    );
-                  }}
+                  onClick={() =>
+                    new Promise<void>((resolve) => {
+                      figma.showUI(__html__, {
+                        width: 200,
+                        height: 130,
+                        title: "Set status",
+                      });
+                      figma.ui.postMessage({
+                        type: "status-picker",
+                        currentStatus: item.status,
+                        itemId: item.id,
+                      });
+                      figma.ui.onmessage = (msg) => {
+                        if (msg.type === "set-status") {
+                          setItems(
+                            items.map((i) =>
+                              i.id === item.id
+                                ? { ...i, status: msg.status }
+                                : i
+                            )
+                          );
+                        }
+                        figma.closePlugin();
+                        resolve();
+                      };
+                    })
+                  }
                 >
                   <Rectangle
                     width={5}
