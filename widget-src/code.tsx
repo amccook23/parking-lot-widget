@@ -6,29 +6,29 @@ interface Item {
   title: string;
   description: string;
   owner: string;
-  status: "new" | "in-progress" | "parked" | "resolved" | "wont-address";
+  status: "open" | "in-progress" | "parked" | "resolved" | "wont-address";
   createdAt: string;
 }
 
-type Status = "new" | "in-progress" | "parked" | "resolved" | "wont-address";
+type Status = "open" | "in-progress" | "parked" | "resolved" | "wont-address";
 
-const STATUS_CYCLE: Status[] = ["new", "in-progress", "parked", "resolved", "wont-address"];
+const STATUS_CYCLE: Status[] = ["open", "in-progress", "parked", "resolved", "wont-address"];
 const STATUS_LABELS: Record<Status, string> = {
-  "new": "New",
+  "open":  "Open",
   "in-progress": "In Progress",
   "parked": "Parked",
   "resolved": "Resolved",
   "wont-address": "Won't Address",
 };
 const STATUS_BG: Record<Status, string> = {
-  "new": "#F0F0F0",
+  "open": "#F0F0F0",
   "in-progress": "#DBEAFE",
   "parked": "#FFF3C4",
   "resolved": "#D1FAE5",
   "wont-address": "#FFE4E6",
 };
 const STATUS_FG: Record<Status, string> = {
-  "new": "#555555",
+  "open": "#555555",
   "in-progress": "#1D4ED8",
   "parked": "#7A5500",
   "resolved": "#065F46",
@@ -64,7 +64,7 @@ function openAddForm(
             title: msg.title,
             description: msg.description || "",
             owner: msg.owner || "Unassigned",
-            status: "new",
+            status: "open",
             createdAt: new Date().toISOString(),
           },
           ...items,
@@ -94,7 +94,7 @@ function ParkingLot() {
         selectedOption: filter,
         options: [
           { option: "all", label: "All" },
-          { option: "new", label: "New" },
+          { option: "open", label: "Open" },
           { option: "in-progress", label: "In Progress" },
           { option: "parked", label: "Parked" },
           { option: "resolved", label: "Resolved" },
@@ -180,7 +180,7 @@ function ParkingLot() {
         padding={{ top: 0, bottom: 0, left: 8, right: 8 }}
         spacing={0}
       >
-        {(["all", "new", "in-progress", "parked", "resolved", "wont-address"] as const).map((f) => (
+        {(["all", "open", "in-progress", "parked", "resolved", "wont-address"] as const).map((f) => (
           <AutoLayout
             key={f}
             padding={{ top: 8, bottom: 8, left: 8, right: 8 }}
