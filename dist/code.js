@@ -24,30 +24,33 @@
   var { widget } = figma;
   var { AutoLayout, Text, Rectangle, SVG, useSyncedState, usePropertyMenu } = widget;
   var STATUS_LABELS = {
-    parked: "Parked",
-    revisiting: "Revisiting",
-    resolved: "Resolved"
+    "open": "Open",
+    "in-progress": "In Progress",
+    "parked": "Parked",
+    "resolved": "Resolved",
+    "wont-address": "Won't Address"
   };
   var STATUS_BG = {
-    parked: "#FFF3C4",
-    revisiting: "#DBEAFE",
-    resolved: "#D1FAE5"
+    "open": "#F0F0F0",
+    "in-progress": "#DBEAFE",
+    "parked": "#FFF3C4",
+    "resolved": "#D1FAE5",
+    "wont-address": "#FFE4E6"
   };
   var STATUS_FG = {
-    parked: "#7A5500",
-    revisiting: "#1D4ED8",
-    resolved: "#065F46"
+    "open": "#555555",
+    "in-progress": "#1D4ED8",
+    "parked": "#7A5500",
+    "resolved": "#065F46",
+    "wont-address": "#9F1239"
   };
   function formatDate(iso) {
     const d = new Date(iso);
     const now = /* @__PURE__ */ new Date();
     const diffDays = Math.floor((now.getTime() - d.getTime()) / 864e5);
-    if (diffDays === 0)
-      return "Today";
-    if (diffDays === 1)
-      return "Yesterday";
-    if (diffDays < 7)
-      return `${diffDays}d ago`;
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Yesterday";
+    if (diffDays < 7) return `${diffDays}d ago`;
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   }
   function openAddForm(items, setItems) {
@@ -66,7 +69,7 @@
               title: msg.title,
               description: msg.description || "",
               owner: msg.owner || "Unassigned",
-              status: "parked",
+              status: "open",
               createdAt: (/* @__PURE__ */ new Date()).toISOString()
             },
             ...items
@@ -92,9 +95,11 @@
           selectedOption: filter,
           options: [
             { option: "all", label: "All" },
+            { option: "open", label: "Open" },
+            { option: "in-progress", label: "In Progress" },
             { option: "parked", label: "Parked" },
-            { option: "revisiting", label: "Revisiting" },
-            { option: "resolved", label: "Resolved" }
+            { option: "resolved", label: "Resolved" },
+            { option: "wont-address", label: "Won't Address" }
           ]
         }
       ],
@@ -174,23 +179,26 @@
           padding: { top: 0, bottom: 0, left: 8, right: 8 },
           spacing: 0
         },
-        ["all", "parked", "revisiting", "resolved"].map((f) => /* @__PURE__ */ figma.widget.h(
-          AutoLayout,
-          {
-            key: f,
-            padding: { top: 8, bottom: 8, left: 8, right: 8 },
-            onClick: () => setFilter(f)
-          },
-          /* @__PURE__ */ figma.widget.h(
-            Text,
+        ["all", "open", "in-progress", "parked", "resolved", "wont-address"].map((f) => {
+          var _a;
+          return /* @__PURE__ */ figma.widget.h(
+            AutoLayout,
             {
-              fontSize: 11,
-              fontWeight: filter === f ? 600 : 400,
-              fill: filter === f ? "#1E1E1E" : "#999999"
+              key: f,
+              padding: { top: 8, bottom: 8, left: 8, right: 8 },
+              onClick: () => setFilter(f)
             },
-            f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)
-          )
-        ))
+            /* @__PURE__ */ figma.widget.h(
+              Text,
+              {
+                fontSize: 11,
+                fontWeight: filter === f ? 600 : 400,
+                fill: filter === f ? "#1E1E1E" : "#999999"
+              },
+              f === "all" ? "All" : (_a = STATUS_LABELS[f]) != null ? _a : f
+            )
+          );
+        })
       ),
       /* @__PURE__ */ figma.widget.h(Rectangle, { width: "fill-parent", height: 1, fill: "#F0F0F0" }),
       filtered.length === 0 && /* @__PURE__ */ figma.widget.h(
@@ -293,7 +301,7 @@
                 onClick: () => new Promise((resolve) => {
                   figma.showUI(__html__, {
                     width: 200,
-                    height: 130,
+                    height: 210,
                     title: "Set status"
                   });
                   figma.ui.postMessage({
