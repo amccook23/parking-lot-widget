@@ -134,20 +134,30 @@
 
   <!-- Status picker -->
   <div id="status-picker">
+    <div class="status-option" data-status="open">
+      <div class="status-dot" style="background:#555555;"></div>
+      <span class="status-label">Open</span>
+      <span class="status-check" id="check-open"></span>
+    </div>
+    <div class="status-option" data-status="in-progress">
+      <div class="status-dot" style="background:#1D4ED8;"></div>
+      <span class="status-label">In Progress</span>
+      <span class="status-check" id="check-in-progress"></span>
+    </div>
     <div class="status-option" data-status="parked">
       <div class="status-dot" style="background:#7A5500;"></div>
       <span class="status-label">Parked</span>
       <span class="status-check" id="check-parked"></span>
     </div>
-    <div class="status-option" data-status="revisiting">
-      <div class="status-dot" style="background:#1D4ED8;"></div>
-      <span class="status-label">Revisiting</span>
-      <span class="status-check" id="check-revisiting"></span>
-    </div>
     <div class="status-option" data-status="resolved">
       <div class="status-dot" style="background:#065F46;"></div>
       <span class="status-label">Resolved</span>
       <span class="status-check" id="check-resolved"></span>
+    </div>
+    <div class="status-option" data-status="wont-address">
+      <div class="status-dot" style="background:#9F1239;"></div>
+      <span class="status-label">Won't Address</span>
+      <span class="status-check" id="check-wont-address"></span>
     </div>
   </div>
 
