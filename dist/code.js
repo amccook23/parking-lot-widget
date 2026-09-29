@@ -24,21 +24,21 @@
   var { widget } = figma;
   var { AutoLayout, Text, Rectangle, SVG, useSyncedState, usePropertyMenu } = widget;
   var STATUS_LABELS = {
-    "open": "Open",
+    "new": "New",
     "in-progress": "In Progress",
     "parked": "Parked",
     "resolved": "Resolved",
     "wont-address": "Won't Address"
   };
   var STATUS_BG = {
-    "open": "#F0F0F0",
+    "new": "#F0F0F0",
     "in-progress": "#DBEAFE",
     "parked": "#FFF3C4",
     "resolved": "#D1FAE5",
     "wont-address": "#FFE4E6"
   };
   var STATUS_FG = {
-    "open": "#555555",
+    "new": "#555555",
     "in-progress": "#1D4ED8",
     "parked": "#7A5500",
     "resolved": "#065F46",
@@ -69,7 +69,7 @@
               title: msg.title,
               description: msg.description || "",
               owner: msg.owner || "Unassigned",
-              status: "open",
+              status: "new",
               createdAt: (/* @__PURE__ */ new Date()).toISOString()
             },
             ...items
@@ -95,7 +95,7 @@
           selectedOption: filter,
           options: [
             { option: "all", label: "All" },
-            { option: "open", label: "Open" },
+            { option: "new", label: "New" },
             { option: "in-progress", label: "In Progress" },
             { option: "parked", label: "Parked" },
             { option: "resolved", label: "Resolved" },
@@ -179,7 +179,7 @@
           padding: { top: 0, bottom: 0, left: 8, right: 8 },
           spacing: 0
         },
-        ["all", "open", "in-progress", "parked", "resolved", "wont-address"].map((f) => {
+        ["all", "new", "in-progress", "parked", "resolved", "wont-address"].map((f) => {
           var _a;
           return /* @__PURE__ */ figma.widget.h(
             AutoLayout,
