@@ -6,27 +6,33 @@ interface Item {
   title: string;
   description: string;
   owner: string;
-  status: "parked" | "revisiting" | "resolved";
+  status: "open" | "in-progress" | "parked" | "resolved" | "wont-address";
   createdAt: string;
 }
 
-type Status = "parked" | "revisiting" | "resolved";
+type Status = "open" | "in-progress" | "parked" | "resolved" | "wont-address";
 
-const STATUS_CYCLE: Status[] = ["parked", "revisiting", "resolved"];
+const STATUS_CYCLE: Status[] = ["open", "in-progress", "parked", "resolved", "wont-address"];
 const STATUS_LABELS: Record<Status, string> = {
-  parked: "Parked",
-  revisiting: "Revisiting",
-  resolved: "Resolved",
+  "open": "Open",
+  "in-progress": "In Progress",
+  "parked": "Parked",
+  "resolved": "Resolved",
+  "wont-address": "Won't Address",
 };
 const STATUS_BG: Record<Status, string> = {
-  parked: "#FFF3C4",
-  revisiting: "#DBEAFE",
-  resolved: "#D1FAE5",
+  "open": "#F0F0F0",
+  "in-progress": "#DBEAFE",
+  "parked": "#FFF3C4",
+  "resolved": "#D1FAE5",
+  "wont-address": "#FFE4E6",
 };
 const STATUS_FG: Record<Status, string> = {
-  parked: "#7A5500",
-  revisiting: "#1D4ED8",
-  resolved: "#065F46",
+  "open": "#555555",
+  "in-progress": "#1D4ED8",
+  "parked": "#7A5500",
+  "resolved": "#065F46",
+  "wont-address": "#9F1239",
 };
 
 function formatDate(iso: string): string {
@@ -58,7 +64,7 @@ function openAddForm(
             title: msg.title,
             description: msg.description || "",
             owner: msg.owner || "Unassigned",
-            status: "parked",
+            status: "open",
             createdAt: new Date().toISOString(),
           },
           ...items,
@@ -88,9 +94,11 @@ function ParkingLot() {
         selectedOption: filter,
         options: [
           { option: "all", label: "All" },
+          { option: "open", label: "Open" },
+          { option: "in-progress", label: "In Progress" },
           { option: "parked", label: "Parked" },
-          { option: "revisiting", label: "Revisiting" },
           { option: "resolved", label: "Resolved" },
+          { option: "wont-address", label: "Won't Address" },
         ],
       },
     ],
@@ -172,7 +180,7 @@ function ParkingLot() {
         padding={{ top: 0, bottom: 0, left: 8, right: 8 }}
         spacing={0}
       >
-        {(["all", "parked", "revisiting", "resolved"] as const).map((f) => (
+        {(["all", "open", "in-progress", "parked", "resolved", "wont-address"] as const).map((f) => (
           <AutoLayout
             key={f}
             padding={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -183,7 +191,7 @@ function ParkingLot() {
               fontWeight={filter === f ? 600 : 400}
               fill={filter === f ? "#1E1E1E" : "#999999"}
             >
-              {f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}
+              {f === "all" ? "All" : STATUS_LABELS[f as Status] ?? f}
             </Text>
           </AutoLayout>
         ))}
@@ -299,7 +307,7 @@ function ParkingLot() {
                     new Promise<void>((resolve) => {
                       figma.showUI(__html__, {
                         width: 200,
-                        height: 130,
+                        height: 210,
                         title: "Set status",
                       });
                       figma.ui.postMessage({
